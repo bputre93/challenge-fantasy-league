@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
 import { ChallengersService } from './challengers.service';
-import { Challenger } from './challenger.model';
+import { Challenger } from './challenger.entity';
 import { CreateChallengerDto } from './dto/create-challenger.dto';
 
 @Controller('challengers')
@@ -8,17 +8,17 @@ export class ChallengersController {
     constructor(private challengersService: ChallengersService){}
 
     @Get()
-    getAllChallengers(): Challenger[] {
+    getAllChallengers(): Promise<Challenger[]> {
         return this.challengersService.getAllChallengers();
     }
 
     @Get('/:id')
-    getChallengerById(@Param('id') id: string) {
+    getChallengerById(@Param('id', ParseIntPipe) id: number): Promise<Challenger> {
         return this.challengersService.getChallengerById(id);
     }
 
     @Post()
-    createChallenger(@Body() createChallengerDto: CreateChallengerDto): Challenger {
+    createChallenger(@Body() createChallengerDto: CreateChallengerDto): Promise<Challenger> {
         return this.challengersService.createChallenger(createChallengerDto);
     }
 }

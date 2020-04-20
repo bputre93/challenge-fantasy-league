@@ -15,6 +15,9 @@ export class Challenger extends BaseEntity {
     team: string;
 
     @Column()
+    originalShow: string;
+
+    @Column()
     points: number;
 
     @Column()

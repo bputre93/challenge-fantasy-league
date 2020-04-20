@@ -1,34 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { Challenger } from './challenger.model';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateChallengerDto } from './dto/create-challenger.dto';
-import * as uuid from 'uuid/v1';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ChallengerRepository } from './challenger.repository';
+import { Challenger } from './challenger.entity'
 
 @Injectable()
 export class ChallengersService {
+    constructor(
+        @InjectRepository(ChallengerRepository)
+        private challengerRepository: ChallengerRepository,
+    ) {}
 
     private challengers: Challenger[] = [];
 
-    getAllChallengers(): Challenger[] {
-        return this.challengers;
+    async getAllChallengers(): Promise<Challenger[]> {
+        return await this.challengerRepository.find();
     }
 
-    getChallengerById(id: string): Challenger {
-        return this.challengers.find(chall => chall.id === id);
+    async getChallengerById(id: number): Promise<Challenger> {
+        const found = await this.challengerRepository.findOne(id)
+
+        if(!found) {
+            throw new NotFoundException(`challenger with id '${id}' not found`)
+        }
+        
+        return found;
     }
 
-    createChallenger(createChallengerDto: CreateChallengerDto): Challenger {
-        const { name, team, seasons, originalShow } = createChallengerDto
-        const challenger: Challenger = {
-            id: uuid(),
-            name,
-            team,
-            seasons,
-            originalShow,
-            points: 0,
-            finals: false,
-            eliminated: false
-        } 
-        this.challengers.push(challenger)
-        return challenger;
+    createChallenger(createChallengerDto: CreateChallengerDto): Promise<Challenger> {
+        return this.challengerRepository.createChallenger(createChallengerDto);
     }
 }
