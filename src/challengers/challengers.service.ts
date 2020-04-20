@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Challenger } from './challenger.model';
 import { CreateChallengerDto } from './dto/create-challenger.dto';
+import * as uuid from 'uuid/v1';
 
 @Injectable()
 export class ChallengersService {
@@ -11,10 +12,14 @@ export class ChallengersService {
         return this.challengers;
     }
 
+    getChallengerById(id: string): Challenger {
+        return this.challengers.find(chall => chall.id === id);
+    }
+
     createChallenger(createChallengerDto: CreateChallengerDto): Challenger {
         const { name, team, seasons, originalShow } = createChallengerDto
         const challenger: Challenger = {
-            id: "1", //need to add uuid lib and change to uuid()
+            id: uuid(),
             name,
             team,
             seasons,
