@@ -1,7 +1,13 @@
+import { isNotEmpty, IsNotEmpty } from 'class-validator'
+
 export class CreateChallengerDto {
+    @IsNotEmpty()
     name: string;
-    team: string;
+    @IsNotEmpty()
+    team: number
+    @IsNotEmpty()
     seasons: number;
+    @IsNotEmpty()
     originalShow: string;
 
 }

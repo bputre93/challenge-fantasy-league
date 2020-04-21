@@ -1,4 +1,5 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Team } from "src/teams/team.entity";
 
 @Entity()
 export class Challenger extends BaseEntity {
@@ -12,9 +13,6 @@ export class Challenger extends BaseEntity {
     seasons: number;
 
     @Column()
-    team: string;
-
-    @Column()
     originalShow: string;
 
     @Column()
@@ -25,4 +23,10 @@ export class Challenger extends BaseEntity {
 
     @Column()
     eliminated: boolean;
+
+    @ManyToOne(type=> Team, team => team.challengers, {eager: false})
+    team: Team;
+
+    // @Column()
+    // teamId: number;
 }
