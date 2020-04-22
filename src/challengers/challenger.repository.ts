@@ -1,10 +1,11 @@
 import { Challenger } from "./challenger.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { CreateChallengerDto } from "./dto/create-challenger.dto";
+import { Team } from "src/teams/team.entity";
 
 @EntityRepository(Challenger)
 export class ChallengerRepository extends Repository<Challenger> {
-    async createChallenger(createChallengerDto: CreateChallengerDto): Promise<Challenger> {
+    async createChallenger(createChallengerDto: CreateChallengerDto, team: Team): Promise<Challenger> {
         const { name, seasons, originalShow } = createChallengerDto
         const challenger = new Challenger();
             challenger.name = name;
@@ -13,7 +14,9 @@ export class ChallengerRepository extends Repository<Challenger> {
             challenger.points = 0;
             challenger.finals = false;
             challenger.eliminated = false;
+            challenger.team = team;
             await challenger.save();
+            delete challenger.team.challengers;
             return challenger;
      }
         

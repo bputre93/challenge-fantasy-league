@@ -4,12 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ChallengerRepository } from './challenger.repository';
 import { Challenger } from './challenger.entity'
 import { UpdateChallengerDto } from './dto/update-challenger.dto';
+import { TeamRepository } from 'src/teams/team.repository';
 
 @Injectable()
 export class ChallengersService {
     constructor(
         @InjectRepository(ChallengerRepository)
         private challengerRepository: ChallengerRepository,
+        @InjectRepository(TeamRepository)
+        private teamRepository: TeamRepository,
     ) {}
 
     private challengers: Challenger[] = [];
@@ -29,7 +32,9 @@ export class ChallengersService {
     }
 
     async createChallenger(createChallengerDto: CreateChallengerDto): Promise<Challenger> {
-        return await this.challengerRepository.createChallenger(createChallengerDto);
+        const id = createChallengerDto.team;
+        const team = await this.teamRepository.findOne(id);
+        return await this.challengerRepository.createChallenger(createChallengerDto, team);
     }
 
     async deleteChallenger(id: number): Promise<void> {
