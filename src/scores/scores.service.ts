@@ -14,18 +14,48 @@ export class ScoresService {
         @InjectRepository(ScoringRepository)
         private scoringRepository: ScoringRepository,
         @InjectRepository(ChallengerRepository)
-        private challengerRepository: ChallengerRepository
+        private challengerRepository: ChallengerRepository,
     )
         {}
 
     async enterWeeklyScore(enterScoreDto: EnterScoreDto): Promise<Score> {
         const rule = await this.scoringRepository.findOne(enterScoreDto.rule);
-        const challenger = await this.challengerRepository.findOne(enterScoreDto.challengerId);
-        return this.scoreRepository.enterWeeklyScore(enterScoreDto, rule, challenger);
+        const challenger = await this.challengerRepository.findOne(enterScoreDto.challenger);
+        const score =  await this.scoreRepository.enterWeeklyScore(enterScoreDto, rule, challenger);
+
+        const challengerNewScore = challenger.points + rule.points;
+        await this.challengerRepository.save({points: challengerNewScore, id: challenger.id});
+        score.challenger.points = challengerNewScore;
+
+        if(rule.id = 4 || rule.type.indexOf('Loss')) { //this is janky
+            challenger.eliminated = true;
+            await this.challengerRepository.save({eliminated: true, id: challenger.id})
+        }
+        return score;
     }
 
     async getAllScores(): Promise<Score[]> {
         return await this.scoreRepository.find();
+    }
+
+    async getScoreById(id: number): Promise<Score> {
+        return await this.scoreRepository.findOne(id);
+    }
+
+    async getScoresByWeek(id: number): Promise<Score[]> {
+        return await this.scoreRepository.find({
+            where: {week: id},
+            order: {id: "ASC"}
+        });
+        //return await this.scoreRepository.getScoresByWeek(id);
+    }
+
+    async getScoresByChallenger(id: number): Promise<Score[]> {
+        return await this.scoreRepository.find({
+            relations: ['challenger'],
+            where: {challenger: id},
+            order: {id: 'ASC'}
+        })
     }
 
 

@@ -18,4 +18,13 @@ export class ScoreRepository extends Repository<Score> {
        return score;
 
     }
+
+    async getScoresByWeek(week: number): Promise<Score[]> {
+        const query = this.createQueryBuilder('score')
+        query.where('score.week = :week',{week})
+        const sql = await query.getQuery();
+        console.log(sql);
+        const scores = await query.getMany();
+        return scores;
+    }
 }

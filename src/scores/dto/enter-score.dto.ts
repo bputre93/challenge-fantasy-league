@@ -5,9 +5,8 @@ export class EnterScoreDto {
     week: number;
     @IsNotEmpty()
     rule: number;
+    @IsNotEmpty()
+    challenger: number;
 
-    challengerId: number;
-
-    challenger: string;
 
 }
