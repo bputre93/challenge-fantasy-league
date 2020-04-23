@@ -6,6 +6,8 @@ export class EnterScoreDto {
     @IsNotEmpty()
     rule: number;
 
-    challenger: number;
+    challengerId: number;
+
+    challenger: string;
 
 }

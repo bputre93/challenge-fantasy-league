@@ -13,6 +13,7 @@ import { TeamRepository } from 'src/teams/team.repository';
     TeamsModule
   ],
   controllers: [ChallengersController],
-  providers: [ChallengersService, TeamsService]
+  providers: [ChallengersService, TeamsService],
+  exports: [ChallengersService]
 })
 export class ChallengersModule {}

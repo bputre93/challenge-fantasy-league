@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { Team } from "src/teams/team.entity";
+import { Score } from "src/scores/score.entity";
 
 @Entity()
 export class Challenger extends BaseEntity {
@@ -27,6 +28,7 @@ export class Challenger extends BaseEntity {
     @ManyToOne(type=> Team, team => team.challengers, {eager: false})
     team: Team;
 
-    // @Column()
-    // teamId: number;
+    @OneToMany(type=>Score, score =>score.challenger, {eager: false})
+    scores: Challenger[];
+
 }

@@ -1,5 +1,6 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Score } from "src/scores/score.entity";
+import { Challenger } from "src/challengers/challenger.entity";
 
 @Entity()
 export class Scoring extends BaseEntity {
@@ -12,8 +13,7 @@ export class Scoring extends BaseEntity {
     @Column()
     points: number;
 
-    @OneToMany(type=>Score, score=> score.rule,{eager:true})
+    @OneToMany(type=>Score, score=> score.rule,{eager:false})
     instances: Score[];
-
     
 }
