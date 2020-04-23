@@ -15,8 +15,6 @@ export class ChallengersService {
         private teamRepository: TeamRepository,
     ) {}
 
-    private challengers: Challenger[] = [];
-
     async getAllChallengers(): Promise<Challenger[]> {
         return await this.challengerRepository.find();
     }
