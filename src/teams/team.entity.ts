@@ -15,4 +15,6 @@ export class Team extends BaseEntity {
     @OneToMany(type => Challenger, challenger => challenger.team, {eager: true})
     challengers: Challenger[];
 
+    totalPoints: number;
+
 }

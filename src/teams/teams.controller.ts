@@ -7,6 +7,11 @@ import { Team } from './team.entity';
 export class TeamsController {
     constructor( private teamsService: TeamsService) {}
 
+    @Get('/standings')
+    getStandings() {
+        return this.teamsService.getStandings();
+    }
+
     @Get()
     getAllTeams(): Promise<Team[]>{
         return this.teamsService.getAllTeams();
@@ -22,4 +27,5 @@ export class TeamsController {
         return this.teamsService.createTeam(createTeamDto);
 
     }
+
 }

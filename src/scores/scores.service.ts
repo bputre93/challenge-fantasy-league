@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ScoreRepository } from './score.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EnterScoreDto } from './dto/enter-score.dto';
@@ -21,6 +21,9 @@ export class ScoresService {
     async enterWeeklyScore(enterScoreDto: EnterScoreDto): Promise<Score> {
         const rule = await this.scoringRepository.findOne(enterScoreDto.rule);
         const challenger = await this.challengerRepository.findOne(enterScoreDto.challenger);
+        if(!challenger){
+            throw new NotFoundException(`challenger with id ${enterScoreDto.challenger} not found`)
+        }
         const score =  await this.scoreRepository.enterWeeklyScore(enterScoreDto, rule, challenger);
 
         const challengerNewScore = challenger.points + rule.points;
@@ -56,6 +59,14 @@ export class ScoresService {
             where: {challenger: id},
             order: {id: 'ASC'}
         })
+    }
+
+    async deleteScore(id: number): Promise<void> {
+        const result = await this.scoreRepository.delete({id});
+
+        if(result.affected === 0) {
+            throw new NotFoundException(`Scoring record with id ${id} not found`)
+        }
     }
 
 

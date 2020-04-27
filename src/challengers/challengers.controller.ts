@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, Delete, Put, UsePipes, ValidationPipe, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, ParseIntPipe, Delete, UsePipes, ValidationPipe, Patch } from '@nestjs/common';
 import { ChallengersService } from './challengers.service';
 import { Challenger } from './challenger.entity';
 import { CreateChallengerDto } from './dto/create-challenger.dto';
