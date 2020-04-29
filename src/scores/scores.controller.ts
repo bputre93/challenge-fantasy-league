@@ -12,6 +12,11 @@ export class ScoresController {
         return this.scoresService.enterWeeklyScore(enterScoreDto);
     }
 
+    @Get('/countsByRule')
+    getCountsOfEachRule(){
+        return this.scoresService.getCountsOfEachRule();
+    }
+
     @Get()
     getAllScores(): Promise<Score[]> {
         return this.scoresService.getAllScores();
@@ -31,4 +36,5 @@ export class ScoresController {
     getScoresByChallenger(@Param('id', ParseIntPipe) id: number): Promise<Score[]> {
         return this.scoresService.getScoresByChallenger(id);
     }
+
 }

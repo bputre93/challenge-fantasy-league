@@ -5,6 +5,7 @@ import { EnterScoreDto } from './dto/enter-score.dto';
 import { Score } from './score.entity';
 import { ScoringRepository } from 'src/scoring/scoring.repository';
 import { ChallengerRepository } from 'src/challengers/challenger.repository';
+import { type } from 'os';
 
 @Injectable()
 export class ScoresService {
@@ -67,6 +68,17 @@ export class ScoresService {
         if(result.affected === 0) {
             throw new NotFoundException(`Scoring record with id ${id} not found`)
         }
+    }
+
+    async getCountsOfEachRule() {
+        const scoreCounts = await this.scoreRepository.getCountsByRuleId()
+        const rules = await this.scoringRepository.find(); //don't need this but easier than finding unique
+        scoreCounts.forEach(el => {
+            const match = rules.find(rule => rule.id == el.rule);
+            el.type = match.type;
+        })
+
+        return scoreCounts;
     }
 
 

@@ -27,4 +27,13 @@ export class ScoreRepository extends Repository<Score> {
         const scores = await query.getMany();
         return scores;
     }
+
+    async getCountsByRuleId() {
+        const query = this.createQueryBuilder('score')
+        .select("score.rule AS rule")
+        .addSelect("COUNT(*) AS count")
+        .groupBy("score.rule")
+        const counts = await query.getRawMany();
+        return counts;
+    }
 }

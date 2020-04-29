@@ -1,6 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Score } from "src/scores/score.entity";
-import { Challenger } from "src/challengers/challenger.entity";
 
 @Entity()
 export class Scoring extends BaseEntity {
