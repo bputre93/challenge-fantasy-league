@@ -5,7 +5,6 @@ import { EnterScoreDto } from './dto/enter-score.dto';
 import { Score } from './score.entity';
 import { ScoringRepository } from 'src/scoring/scoring.repository';
 import { ChallengerRepository } from 'src/challengers/challenger.repository';
-import { type } from 'os';
 
 @Injectable()
 export class ScoresService {
@@ -79,6 +78,35 @@ export class ScoresService {
         })
 
         return scoreCounts;
+    }
+
+    async challengerWeeklyScores() {
+        const scores = await this.getAllScores();
+        const fullStandingsData = [];
+        scores.forEach(el => {
+            const challIndex = this.findObjectIndex(fullStandingsData,'challenger',el.challenger.name)
+            if(challIndex !== -1){
+                const week = el.week;
+                fullStandingsData[challIndex][week] += el.rule.points;
+                fullStandingsData[challIndex].total += el.rule.points;
+            } else if(challIndex === -1) {
+                fullStandingsData.push({challenger: el.challenger.name, 1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,total:0})
+                const newChall = fullStandingsData.length-1;
+                const week = el.week;
+                fullStandingsData[newChall][week] += el.rule.points;
+                fullStandingsData[newChall].total += el.rule.points;
+            }
+        });
+        return fullStandingsData;
+    }
+
+    findObjectIndex(arr, attr, value) {
+        for(let i = 0; i < arr.length; i += 1) {
+            if(arr[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 

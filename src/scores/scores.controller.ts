@@ -12,6 +12,11 @@ export class ScoresController {
         return this.scoresService.enterWeeklyScore(enterScoreDto);
     }
 
+    @Get('/challengerWeeklyScores')
+    getChallengerWeeklyScores(){
+        return this.scoresService.challengerWeeklyScores();
+    }
+
     @Get('/countsByRule')
     getCountsOfEachRule(){
         return this.scoresService.getCountsOfEachRule();
