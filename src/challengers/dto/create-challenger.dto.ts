@@ -9,5 +9,7 @@ export class CreateChallengerDto {
     seasons: number;
     @IsNotEmpty()
     originalShow: string;
+    @IsNotEmpty()
+    draftPosition: number;
 
 }
