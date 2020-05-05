@@ -18,6 +18,11 @@ export class ChallengersController {
         return this.challengersService.getChallengerById(id);
     }
 
+    @Get('/name/:name')
+    getChallengerByName(@Param('name') name: string): Promise<Challenger> {
+        return this.challengersService.getChallengerByName(name);
+    }
+
     @Post()
     @UsePipes(ValidationPipe)
     createChallenger(@Body() createChallengerDto: CreateChallengerDto): Promise<Challenger> {

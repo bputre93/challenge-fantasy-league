@@ -12,6 +12,11 @@ export class ScoresController {
         return this.scoresService.enterWeeklyScore(enterScoreDto);
     }
 
+    @Get('/teamTotalPointsByWeek')
+    getTeamsTotalPointsByWeek() {
+        return this.scoresService.teamsTotalPointsByWeek();
+    }
+
     @Get('/challengerWeeklyScores')
     getChallengerWeeklyScores(){
         return this.scoresService.challengerWeeklyScores();

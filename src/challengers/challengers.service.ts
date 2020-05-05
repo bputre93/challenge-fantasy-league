@@ -16,7 +16,12 @@ export class ChallengersService {
     ) {}
 
     async getAllChallengers(): Promise<Challenger[]> {
-        return await this.challengerRepository.find();
+        const challs = await this.challengerRepository.find({relations:["team"]});
+        challs.forEach(el=>{
+            delete el.team.challengers;
+        })
+        return challs;
+
     }
 
     async getChallengerById(id: number): Promise<Challenger> {
@@ -26,6 +31,15 @@ export class ChallengersService {
             throw new NotFoundException(`challenger with id '${id}' not found`)
         }
         
+        return found;
+    }
+
+    async getChallengerByName(name: string): Promise<Challenger> {
+        const found = await this.challengerRepository.findOne({where:{name: name}, relations:['team']});
+        if(!found) {
+            throw new NotFoundException(`challenger with name '${name}' not found`)
+        }
+        delete found.team.challengers;
         return found;
     }
 
