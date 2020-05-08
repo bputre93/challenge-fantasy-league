@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, ParseIntPipe, Delete } from '@nestjs/common';
 import { Score } from './score.entity';
 import { EnterScoreDto } from './dto/enter-score.dto';
 import { ScoresService } from './scores.service';
@@ -45,6 +45,11 @@ export class ScoresController {
     @Get('/challenger/:id')
     getScoresByChallenger(@Param('id', ParseIntPipe) id: number): Promise<Score[]> {
         return this.scoresService.getScoresByChallenger(id);
+    }
+
+    @Delete('/:id')
+    deleteScore(@Param('id',ParseIntPipe) id:number): Promise<void> {
+        return this.scoresService.deleteScore(id);
     }
 
 }

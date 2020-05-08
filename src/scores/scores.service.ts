@@ -30,7 +30,7 @@ export class ScoresService {
         await this.challengerRepository.save({points: challengerNewScore, id: challenger.id});
         score.challenger.points = challengerNewScore;
 
-        if(rule.type.indexOf('Loss')) { //this is janky
+        if(rule.type.indexOf('Loss') !== -1) { //this is janky
             challenger.eliminated = true;
             await this.challengerRepository.save({eliminated: true, id: challenger.id})
         }
