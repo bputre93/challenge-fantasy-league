@@ -5,5 +5,6 @@ export class UpdateChallengerDto {
     points: number;
     finals: boolean;
     eliminated: boolean;
+    redSkulls: number;
 
 }

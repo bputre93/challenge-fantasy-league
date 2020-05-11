@@ -12,6 +12,7 @@ export class ChallengerRepository extends Repository<Challenger> {
             challenger.seasons = seasons;
             challenger.originalShow = originalShow;
             challenger.points = 0;
+            challenger.redSkulls = 0;
             challenger.finals = false;
             challenger.eliminated = false;
             challenger.draftPosition = draftPosition;

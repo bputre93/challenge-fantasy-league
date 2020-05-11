@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TeamRepository } from './team.repository'
 import { CreateTeamDto } from './dto/create-team-dto';
 import { Team } from './team.entity';
+import { UpdateTeamDto } from './dto/update-team-dto';
 
 @Injectable()
 export class TeamsService {
@@ -47,6 +48,15 @@ export class TeamsService {
 
     async createTeam(createTeamDto: CreateTeamDto): Promise<Team> {
         return this.teamRepository.createTeam(createTeamDto);
+    }
+
+    async updateTeam(id:number, updateTeamDto: UpdateTeamDto): Promise<Team> {
+        const found = await this.teamRepository.findOne(id);
+        if(!found) {
+            throw new NotFoundException(`challenger with id '${id}' not found`)
+        }
+        await this.teamRepository.save({...updateTeamDto, id: id});
+        return this.getTeamById(id);
     }
 }
 

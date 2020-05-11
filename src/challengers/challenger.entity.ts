@@ -28,6 +28,12 @@ export class Challenger extends BaseEntity {
     @Column()
     draftPosition: number;
 
+    @Column({nullable: true})
+    redSkulls: number;
+
+    @Column({nullable: true})
+    sex: string;
+
     @ManyToOne(type=> Team, team => team.challengers, {eager: false})
     team: Team;
 

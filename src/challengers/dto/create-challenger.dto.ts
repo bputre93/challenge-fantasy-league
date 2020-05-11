@@ -1,4 +1,5 @@
-import { IsNotEmpty } from 'class-validator'
+import { IsNotEmpty, IsIn } from 'class-validator';
+import {Sex} from '../chall-sex-enum';
 
 export class CreateChallengerDto {
     @IsNotEmpty()
@@ -11,5 +12,8 @@ export class CreateChallengerDto {
     originalShow: string;
     @IsNotEmpty()
     draftPosition: number;
-
+    @IsNotEmpty()
+    @IsIn([Sex.FEMALE, Sex.MALE])
+    sex: Sex;
 }
+

@@ -33,6 +33,9 @@ export class ScoresService {
         if(rule.type.indexOf('Loss') !== -1) { //this is janky
             challenger.eliminated = true;
             await this.challengerRepository.save({eliminated: true, id: challenger.id})
+        } 
+        if (rule.type.indexOf('Elimination Win')!== -1) {
+            challenger.redSkulls += 1;
         }
         return score;
     }
@@ -62,7 +65,7 @@ export class ScoresService {
 
     async deleteScore(id: number): Promise<void> {
         const result = await this.scoreRepository.delete({id});
-
+        //refactor to also update challenger total score
         if(result.affected === 0) {
             throw new NotFoundException(`Scoring record with id ${id} not found`)
         }
