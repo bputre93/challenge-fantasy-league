@@ -6,5 +6,6 @@ export class UpdateChallengerDto {
     finals: boolean;
     eliminated: boolean;
     redSkulls: number;
+    imageUrl: string;
 
 }

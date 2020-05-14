@@ -13,6 +13,8 @@ export class CreateChallengerDto {
     @IsNotEmpty()
     draftPosition: number;
     @IsNotEmpty()
+    imageUrl: string;
+    @IsNotEmpty()
     @IsIn([Sex.FEMALE, Sex.MALE])
     sex: Sex;
 }

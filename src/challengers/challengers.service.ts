@@ -16,7 +16,7 @@ export class ChallengersService {
     ) {}
 
     async getAllChallengers(): Promise<Challenger[]> {
-        const challs = await this.challengerRepository.find({relations:["team"]});
+        const challs = await this.challengerRepository.find({relations:["team"],order: {id: 'ASC'}});
         challs.forEach(el=>{
             delete el.team.challengers;
         })
