@@ -31,7 +31,7 @@ export class Challenger extends BaseEntity {
     @Column({nullable: true})
     redSkulls: number;
 
-    @Column()
+    @Column({nullable: true})
     sex: string;
 
     @Column({nullable: true})

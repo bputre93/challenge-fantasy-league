@@ -6,7 +6,7 @@ import { Team } from "src/teams/team.entity";
 @EntityRepository(Challenger)
 export class ChallengerRepository extends Repository<Challenger> {
     async createChallenger(createChallengerDto: CreateChallengerDto, team: Team): Promise<Challenger> {
-        const { name, seasons, originalShow, draftPosition, imageUrl } = createChallengerDto
+        const { name, seasons, originalShow, draftPosition, imageUrl, sex } = createChallengerDto
         const challenger = new Challenger();
             challenger.name = name;
             challenger.seasons = seasons;
@@ -17,6 +17,7 @@ export class ChallengerRepository extends Repository<Challenger> {
             challenger.eliminated = false;
             challenger.draftPosition = draftPosition;
             challenger.imageUrl = imageUrl;
+            challenger.sex = sex;
             challenger.team = team;
             await challenger.save();
             delete challenger.team.challengers;
