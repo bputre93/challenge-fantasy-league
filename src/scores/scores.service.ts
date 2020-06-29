@@ -92,7 +92,7 @@ export class ScoresService {
                 fullStandingsData[challIndex][week] += el.rule.points;
                 fullStandingsData[challIndex].total += el.rule.points;
             } else if(challIndex === -1) {
-                fullStandingsData.push({challenger: el.challenger.name, week1:0,week2:0,week3:0,week4:0,week5:0,week6:0,week7:0,week8:0,week9:0,week10:0, week11:0, week12:0,total:0})
+                fullStandingsData.push({challenger: el.challenger.name, week1:0,week2:0,week3:0,week4:0,week5:0,week6:0,week7:0,week8:0,week9:0,week10:0, week11:0, week12:0, week13:0, week14:0,total:0})
                 const newChall = fullStandingsData.length-1;
                 const week = `week${el.week}`;
                 fullStandingsData[newChall][week] += el.rule.points;
@@ -122,7 +122,7 @@ export class ScoresService {
                     }
                 }
             } else if(teamIndex === -1){
-                teamWeeklyScores.push({team: el.teamId, owner: el.owner, totals:[el.week1, el.week2, el.week3, el.week4,el.week5,el.week6,el.week7,el.week8, el.week9,el.week10, el.week11, el.week12]});
+                teamWeeklyScores.push({team: el.teamId, owner: el.owner, totals:[el.week1, el.week2, el.week3, el.week4,el.week5,el.week6,el.week7,el.week8, el.week9,el.week10, el.week11, el.week12, el.week13, el.week14]});
             }
             
         }
