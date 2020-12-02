@@ -26,8 +26,8 @@ export class ScoresService {
         }
         const score =  await this.scoreRepository.enterWeeklyScore(enterScoreDto, rule, challenger);
 
-        const challengerNewScore = challenger.points + rule.points;
-        await this.challengerRepository.save({points: challengerNewScore, id: challenger.id});
+        const challengerNewScore = await this.updateChallengerTotalScore(challenger.id);
+
         score.challenger.points = challengerNewScore;
 
         if(rule.type.indexOf('Loss') !== -1) { //this is janky
@@ -66,14 +66,20 @@ export class ScoresService {
 
     async deleteAllScores(): Promise<void> {
          await this.scoreRepository.deleteAllScores();
+
+         await this.challengerRepository.zeroAllChallengerPoints();
     }
 
     async deleteScore(id: number): Promise<void> {
+        const challengerId = (await this.scoreRepository.findOne({id})).challenger.id
+        
         const result = await this.scoreRepository.delete({id});
-        //refactor to also update challenger total score
+
         if(result.affected === 0) {
             throw new NotFoundException(`Scoring record with id ${id} not found`)
         }
+
+        this.updateChallengerTotalScore(challengerId);
     }
 
 
@@ -147,6 +153,12 @@ export class ScoresService {
             }
         }
         return -1;
+    }
+
+    async updateChallengerTotalScore(id) {
+        const challengerNewScore = (await this.getScoresByChallenger(id)).reduce((prev, elem) =>prev +elem.rule.points,0)
+        await this.challengerRepository.save({points: challengerNewScore, id: id});
+        return challengerNewScore;
     }
 
 

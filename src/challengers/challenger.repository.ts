@@ -23,5 +23,12 @@ export class ChallengerRepository extends Repository<Challenger> {
             delete challenger.team.challengers;
             return challenger;
      }
+
+     async zeroAllChallengerPoints() {
+         this.createQueryBuilder('challenger')
+         .update()
+         .set({ points: 0})
+         .execute()
+     }
         
 }
