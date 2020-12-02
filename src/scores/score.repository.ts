@@ -36,4 +36,23 @@ export class ScoreRepository extends Repository<Score> {
         const counts = await query.getRawMany();
         return counts;
     }
+
+    async deleteAllScores() {
+        const scoreIds = await this.createQueryBuilder('score')
+        .select("score.id")
+        .execute();
+
+        if (scoreIds.length === 0) {
+            return
+        }
+
+        const scoreIdsArr = scoreIds.map(el => {
+            return el.score_id
+        })
+
+        this.createQueryBuilder('score')
+        .delete()
+        .where('score.id IN (:...ids)', { ids: scoreIdsArr })
+        .execute()
+    }
 }

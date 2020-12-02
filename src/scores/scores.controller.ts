@@ -27,9 +27,9 @@ export class ScoresController {
         return this.scoresService.getCountsOfEachRule();
     }
 
-    @Get()
-    getAllScores(): Promise<Score[]> {
-        return this.scoresService.getAllScores();
+    @Delete('/deleteAll')
+    deleteAllScores(): Promise<void> {
+        return this.scoresService.deleteAllScores();
     }
 
     @Get('/:id')
@@ -45,6 +45,11 @@ export class ScoresController {
     @Get('/challenger/:id')
     getScoresByChallenger(@Param('id', ParseIntPipe) id: number): Promise<Score[]> {
         return this.scoresService.getScoresByChallenger(id);
+    }
+
+    @Get()
+    getAllScores(): Promise<Score[]> {
+        return this.scoresService.getAllScores();
     }
 
     @Delete('/:id')
