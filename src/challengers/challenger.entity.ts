@@ -35,7 +35,16 @@ export class Challenger extends BaseEntity {
     sex: string;
 
     @Column({nullable: true})
+    instagramHandle: string;
+
+    @Column({nullable: true})
+    instagramUrl: string;
+
+    @Column({nullable: true})
     imageUrl: string;
+
+    @Column({nullable: true})
+    funFact: string;
 
     @ManyToOne(type=> Team, team => team.challengers, {eager: false})
     team: Team;

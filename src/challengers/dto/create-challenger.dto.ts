@@ -17,5 +17,12 @@ export class CreateChallengerDto {
     @IsNotEmpty()
     @IsIn([Sex.FEMALE, Sex.MALE])
     sex: Sex;
+
+    instagramHandle: string;
+
+    instagramUrl: string;
+
+    funFact: string;
+
 }
 

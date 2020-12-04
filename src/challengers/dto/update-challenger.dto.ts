@@ -7,5 +7,7 @@ export class UpdateChallengerDto {
     eliminated: boolean;
     redSkulls: number;
     imageUrl: string;
-
+    instagramUrl: string;
+    instagramHandle: string;
+    funFact: string;
 }
