@@ -5,6 +5,7 @@ import { typeOrmConfig } from './config/typeorm.config';
 import { TeamsModule } from './teams/teams.module';
 import { ScoresModule } from './scores/scores.module';
 import { ScoringModule } from './scoring/scoring.module';
+import { RecapsModule } from './recaps/recaps.module';
 
 
 @Module({
@@ -13,7 +14,8 @@ import { ScoringModule } from './scoring/scoring.module';
     TypeOrmModule.forRoot(typeOrmConfig),
     TeamsModule,
     ScoresModule,
-    ScoringModule
+    ScoringModule,
+    RecapsModule
   ]
 })
 export class AppModule {}
