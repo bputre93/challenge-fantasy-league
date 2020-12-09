@@ -6,6 +6,7 @@ import { TeamsModule } from './teams/teams.module';
 import { ScoresModule } from './scores/scores.module';
 import { ScoringModule } from './scoring/scoring.module';
 import { RecapsModule } from './recaps/recaps.module';
+import { RankingsModule } from './rankings/rankings.module';
 
 
 @Module({
@@ -15,7 +16,8 @@ import { RecapsModule } from './recaps/recaps.module';
     TeamsModule,
     ScoresModule,
     ScoringModule,
-    RecapsModule
+    RecapsModule,
+    RankingsModule
   ]
 })
 export class AppModule {}
