@@ -18,4 +18,5 @@ export class Ranking extends BaseEntity {
     @Column({nullable: true})
     writeup: string
 
+    prevRank: number;
 }

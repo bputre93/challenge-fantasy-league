@@ -32,6 +32,20 @@ export class RankingsService {
             return el;
         })
 
+        if(week !== 0) {
+            const prev = await (await this.rankingRepository.find({where: {week: week-1}})).map(el => {return {team: el.team.id, prevRank: el.powerRank}})
+            
+            entries.forEach(el => {
+                const teamId = el.team.id;
+                prev.forEach(p => {
+                    if(p.team == teamId) {
+                        el.prevRank = p.prevRank
+                    }
+                })
+            })
+
+        }
+
         return entries;
     }
 
