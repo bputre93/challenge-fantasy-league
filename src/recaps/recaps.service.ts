@@ -13,8 +13,6 @@ export class RecapsService {
 
     async createRecap(createRecapDto: CreateRecapDto): Promise<Recap> {
         const weeks = await this.recapRepository.getWeeks();
-        console.log(weeks)
-
          if (weeks.includes(createRecapDto.week)){
              throw new BadRequestException(`Recap for week ${createRecapDto.week} already exists`)
          }

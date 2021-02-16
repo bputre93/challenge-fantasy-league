@@ -23,7 +23,7 @@ export class RankingsService {
     async getRankingsByWeek(week: number): Promise<Ranking[]> {
         const found =  await this.rankingRepository.find({where: {week: week}})
 
-        if(!found) {
+        if(!found.length) {
             throw new NotFoundException(`Power rankings from week ${week} not found`)
         }
 
@@ -33,7 +33,8 @@ export class RankingsService {
         })
 
         if(week !== 0) {
-            const prev = await (await this.rankingRepository.find({where: {week: week-1}})).map(el => {return {team: el.team.id, prevRank: el.powerRank}})
+            //week-4 is janky and assumes monthly power rankings. Could do a loop to check for the existence of a ranking. See how this plays out.
+            const prev = (await this.rankingRepository.find({where: {week: week-4}})).map(el => {return {team: el.team.id, prevRank: el.powerRank}})
             
             entries.forEach(el => {
                 const teamId = el.team.id;
@@ -50,6 +51,12 @@ export class RankingsService {
     }
 
     async getAllRankings(): Promise<Ranking[]> {
-        return await this.rankingRepository.find();
+        const all =  await this.rankingRepository.find();
+        const trimmed = all.map(el => {
+            delete el.team.challengers
+            return el
+        })
+
+        return trimmed;
     }
 }
