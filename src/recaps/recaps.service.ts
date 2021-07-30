@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateRecapDto } from './dto/create-recap.dto';
 import { RecapRepository } from './recap.repository';
 import { Recap } from './recap.entity';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class RecapsService {
     constructor(
         @InjectRepository(RecapRepository)
-        private recapRepository: RecapRepository
+        private recapRepository: RecapRepository,
+        private mailService: MailService
         ){}
 
     async createRecap(createRecapDto: CreateRecapDto): Promise<Recap> {
@@ -50,6 +52,10 @@ export class RecapsService {
         if(result.affected === 0) {
             throw new NotFoundException(`recap with id '${id}' not found`)
         }
+    }
+
+    async sendWeeklyRecapEmail() {
+        await this.mailService.sendWeeklyRecapEmail();
     }
 
 
