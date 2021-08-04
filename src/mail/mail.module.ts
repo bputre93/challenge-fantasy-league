@@ -6,7 +6,6 @@ import { join } from 'path';
 import { MailController } from './mail.controller';
 
 @Module({
-  controllers: [MailController],
   imports: [
     MailerModule.forRoot({
       transport: {
@@ -17,18 +16,20 @@ import { MailController } from './mail.controller';
           pass: 'topsecret',
         },
       },
+      preview: true,
       defaults: {
         from: '"No Reply" <noreply@example.com>',
       },
       template: {
-        dir: join(__dirname, 'templates'),
+        dir: 'Users/brandonputre/Documents/challenge-fantasy-league/dist/mail/templates'/*join(__dirname, './templates')*/,
         adapter: new HandlebarsAdapter(), 
         options: {
-          strict: true,
+          strict: false,
         },
       },
     }),
   ],
+  controllers: [MailController],
   providers: [MailService],
   exports: [MailService], 
 })
