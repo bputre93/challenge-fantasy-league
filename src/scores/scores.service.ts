@@ -123,6 +123,7 @@ export class ScoresService {
             const chall = await this.challengerRepository.findOne({where:{name: el.challenger}, relations:['team']});
             el.teamId = chall.team.id
             el.owner = chall.team.owner;
+            el.team = chall.team.name;
         //combine team scores into total weekly points
             const teamIndex = this.findObjectIndex(teamWeeklyScores, 'team', el.teamId);
             if(teamIndex !== -1) {
@@ -134,13 +135,13 @@ export class ScoresService {
                     }
                 }
             } else if(teamIndex === -1){
-                teamWeeklyScores.push({team: el.teamId, owner: el.owner, totals:[el.week1, el.week2, el.week3, el.week4,el.week5,el.week6,el.week7,el.week8, el.week9,el.week10, el.week11, el.week12, el.week13, el.week14, el.week15, el.week16]});
+                teamWeeklyScores.push({teamId: el.teamId, owner: el.owner, team: el.team, totals:[el.week1, el.week2, el.week3, el.week4,el.week5,el.week6,el.week7,el.week8, el.week9,el.week10, el.week11, el.week12, el.week13, el.week14, el.week15, el.week16]});
             }
             
         }
         // compound scores each week (etc week2 = week1+week2)
         teamWeeklyScores.forEach(team =>{
-            const index = teamRunningScores.push({team: team.teamId, owner: team.owner, totals:[]})-1;
+            const index = teamRunningScores.push({teamId: team.teamId, owner: team.owner, name: team.team, totals:[]})-1;
             team.totals.reduce((a,b,i)=> {return teamRunningScores[index].totals[i] = a+b},0)
         })
         return teamRunningScores;
@@ -153,6 +154,19 @@ export class ScoresService {
             }
         }
         return -1;
+    }
+    async getStandingsForWeek(week: number) {
+        const weeklyRunningScores = await this.teamsTotalPointsByWeek();
+        console.log(weeklyRunningScores)
+        const teamWeeklyStandings = weeklyRunningScores.map(team => {
+            return {
+                team: team.name,
+                points: team.totals[week-1] - team.totals[week-2]
+            }
+
+        })
+        console.log(teamWeeklyStandings)
+        return teamWeeklyStandings;
     }
 
     async updateChallengerTotalScore(id) {

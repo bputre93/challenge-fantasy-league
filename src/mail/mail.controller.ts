@@ -1,15 +1,13 @@
-import { Controller, Post } from "@nestjs/common";
+import { Controller, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { MailService } from "./mail.service";
 
 @Controller('mail')
 export class MailController {
     constructor(private mailService: MailService) {}
 
-    @Post()
-    sendMail(): Promise<void> {
-        return this.mailService.sendWeeklyRecapEmail();
+    @Post('/:week')
+    sendMail(@Param('week', ParseIntPipe) week: number): Promise<void> {
+        return this.mailService.sendWeeklyRecapEmail(week);
     }
-
-
 
 }
